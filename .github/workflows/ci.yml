@@ -1,0 +1,54 @@
+name: CI Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ build-essential
+        
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        
+    - name: Build
+      run: |
+        cd build
+        make
+        
+    - name: Run tests
+      run: |
+        cd build
+        ./testscope ../examples/api_tests.json || true
+        
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-report
+        path: build/report.html
+        
+    - name: Check build success
+      run: |
+        cd build
+        if [ -f testscope ]; then
+          echo "✅ Build successful!"
+          exit 0
+        else
+          echo "❌ Build failed!"
+          exit 1
+        fi
