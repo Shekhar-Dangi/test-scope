@@ -11,6 +11,9 @@ else()
     add_compile_options(-Wall -Wextra -pedantic)
 endif()
 
+# Find OpenSSL for HTTPS support
+find_package(OpenSSL REQUIRED)
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -39,6 +42,15 @@ set(SOURCES
 
 add_executable(testscope main.cpp ${SOURCES})
 
-target_link_libraries(testscope PRIVATE nlohmann_json::nlohmann_json httplib::httplib)
+# Enable SSL support in cpp-httplib
+target_compile_definitions(testscope PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
+
+# Link libraries
+target_link_libraries(testscope PRIVATE 
+    nlohmann_json::nlohmann_json 
+    httplib::httplib
+    OpenSSL::SSL
+    OpenSSL::Crypto
+)
 
 enable_testing()

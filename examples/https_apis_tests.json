@@ -1,0 +1,47 @@
+{
+  "test_suite": {
+    "name": "Public HTTPS APIs",
+    "tests": [
+      {
+        "name": "Dog CEO API - Random dog",
+        "type": "http",
+        "method": "GET",
+        "url": "https://dog.ceo/api/breeds/image/random",
+        "expect": {
+          "status": 200,
+          "contains": "message"
+        }
+      },
+      {
+        "name": "Cat Facts API",
+        "type": "http",
+        "method": "GET",
+        "url": "https://catfact.ninja/fact",
+        "expect": {
+          "status": 200,
+          "contains": "fact"
+        }
+      },
+      {
+        "name": "Random Advice API",
+        "type": "http",
+        "method": "GET",
+        "url": "https://api.adviceslip.com/advice",
+        "expect": {
+          "status": 200,
+          "contains": "advice"
+        }
+      },
+      {
+        "name": "JSONPlaceholder - Posts",
+        "type": "http",
+        "method": "GET",
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "expect": {
+          "status": 200,
+          "contains": "userId"
+        }
+      }
+    ]
+  }
+}

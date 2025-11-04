@@ -1,0 +1,37 @@
+{
+  "test_suite": {
+    "name": "GitHub API HTTPS Tests",
+    "tests": [
+      {
+        "name": "Get GitHub organization info",
+        "type": "http",
+        "method": "GET",
+        "url": "https://api.github.com/orgs/github",
+        "expect": {
+          "status": 200,
+          "contains": "login"
+        }
+      },
+      {
+        "name": "Get popular repository",
+        "type": "http",
+        "method": "GET",
+        "url": "https://api.github.com/repos/microsoft/vscode",
+        "expect": {
+          "status": 200,
+          "contains": "full_name"
+        }
+      },
+      {
+        "name": "Get user info",
+        "type": "http",
+        "method": "GET",
+        "url": "https://api.github.com/users/torvalds",
+        "expect": {
+          "status": 200,
+          "contains": "Linus Torvalds"
+        }
+      }
+    ]
+  }
+}

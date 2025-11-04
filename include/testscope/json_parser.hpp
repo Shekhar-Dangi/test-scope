@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <nlohmann/json.hpp>
 #include "test_case.hpp"
 
 namespace testscope {

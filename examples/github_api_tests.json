@@ -1,35 +1,35 @@
 {
   "test_suite": {
-    "name": "GitHub API Tests",
+    "name": "Additional API Tests",
     "tests": [
       {
-        "name": "Get GitHub user info",
+        "name": "Get comments from JSONPlaceholder",
         "type": "http",
         "method": "GET",
-        "url": "https://api.github.com/users/github",
+        "url": "https://jsonplaceholder.typicode.com/comments?postId=1",
         "expect": {
           "status": 200,
-          "contains": "github"
+          "contains": "email"
         }
       },
       {
-        "name": "Get repository info",
+        "name": "Get todos",
         "type": "http",
         "method": "GET",
-        "url": "https://api.github.com/repos/github/docs",
+        "url": "https://jsonplaceholder.typicode.com/todos/1",
         "expect": {
           "status": 200,
-          "contains": "full_name"
+          "contains": "userId"
         }
       },
       {
-        "name": "Search repositories",
+        "name": "Get albums",
         "type": "http",
         "method": "GET",
-        "url": "https://api.github.com/search/repositories?q=language:cpp",
+        "url": "https://jsonplaceholder.typicode.com/albums",
         "expect": {
           "status": 200,
-          "contains": "items"
+          "contains": "title"
         }
       }
     ]
