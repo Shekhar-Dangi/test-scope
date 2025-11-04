@@ -1,0 +1,46 @@
+{
+  "test_suite": {
+    "name": "JSONPlaceholder API Tests",
+    "tests": [
+      {
+        "name": "Get user by ID",
+        "type": "http",
+        "method": "GET",
+        "url": "https://jsonplaceholder.typicode.com/users/1",
+        "expect": {
+          "status": 200,
+          "contains": "Leanne Graham"
+        }
+      },
+      {
+        "name": "Get all posts",
+        "type": "http",
+        "method": "GET",
+        "url": "https://jsonplaceholder.typicode.com/posts",
+        "expect": {
+          "status": 200
+        }
+      },
+      {
+        "name": "Get specific post",
+        "type": "http",
+        "method": "GET",
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "expect": {
+          "status": 200,
+          "contains": "userId"
+        }
+      },
+      {
+        "name": "Get non-existent resource (should fail)",
+        "type": "http",
+        "method": "GET",
+        "url": "https://jsonplaceholder.typicode.com/users/99999",
+        "expect": {
+          "status": 200,
+          "contains": "name"
+        }
+      }
+    ]
+  }
+}
