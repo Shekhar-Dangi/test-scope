@@ -63,42 +63,127 @@ bool Reporter::generateHTML(const TestResults& results,
     file << "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
     file << "  <title>Test Report - " << suite_name << "</title>\n";
     file << "  <style>\n";
-    file << "    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }\n";
-    file << "    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n";
-    file << "    h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }\n";
-    file << "    .summary { display: flex; gap: 20px; margin: 20px 0; }\n";
-    file << "    .stat { flex: 1; padding: 15px; border-radius: 4px; text-align: center; }\n";
-    file << "    .stat h3 { margin: 0; font-size: 2em; }\n";
-    file << "    .stat p { margin: 5px 0 0 0; color: #666; }\n";
-    file << "    .passed { background: #e8f5e9; color: #2e7d32; }\n";
-    file << "    .failed { background: #ffebee; color: #c62828; }\n";
-    file << "    .skipped { background: #fff3e0; color: #ef6c00; }\n";
-    file << "    .total { background: #e3f2fd; color: #1565c0; }\n";
-    file << "    table { width: 100%; border-collapse: collapse; margin-top: 20px; }\n";
-    file << "    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }\n";
-    file << "    th { background: #f5f5f5; font-weight: bold; }\n";
-    file << "    .status { font-weight: bold; }\n";
-    file << "    .status.pass { color: #2e7d32; }\n";
-    file << "    .status.fail { color: #c62828; }\n";
-    file << "    .status.skip { color: #ef6c00; }\n";
-    file << "    .error { color: #c62828; font-size: 0.9em; margin-top: 5px; }\n";
+    file << "    * { margin: 0; padding: 0; box-sizing: border-box; }\n";
+    file << "    body { \n";
+    file << "      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;\n";
+    file << "      background: #0a0a0a;\n";
+    file << "      color: #e4e4e7;\n";
+    file << "      line-height: 1.6;\n";
+    file << "      padding: 2rem;\n";
+    file << "    }\n";
+    file << "    .container { max-width: 1200px; margin: 0 auto; }\n";
+    file << "    header { margin-bottom: 3rem; }\n";
+    file << "    h1 { \n";
+    file << "      font-size: 2rem;\n";
+    file << "      font-weight: 600;\n";
+    file << "      color: #fafafa;\n";
+    file << "      margin-bottom: 0.5rem;\n";
+    file << "    }\n";
+    file << "    .subtitle { color: #a1a1aa; font-size: 0.875rem; }\n";
+    file << "    .stats { \n";
+    file << "      display: grid;\n";
+    file << "      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n";
+    file << "      gap: 1rem;\n";
+    file << "      margin-bottom: 2rem;\n";
+    file << "    }\n";
+    file << "    .stat-card { \n";
+    file << "      background: #18181b;\n";
+    file << "      border: 1px solid #27272a;\n";
+    file << "      border-radius: 8px;\n";
+    file << "      padding: 1.25rem;\n";
+    file << "    }\n";
+    file << "    .stat-value { \n";
+    file << "      font-size: 2rem;\n";
+    file << "      font-weight: 700;\n";
+    file << "      margin-bottom: 0.25rem;\n";
+    file << "    }\n";
+    file << "    .stat-label { \n";
+    file << "      font-size: 0.875rem;\n";
+    file << "      color: #a1a1aa;\n";
+    file << "      text-transform: uppercase;\n";
+    file << "      letter-spacing: 0.05em;\n";
+    file << "    }\n";
+    file << "    .stat-card.total .stat-value { color: #60a5fa; }\n";
+    file << "    .stat-card.passed .stat-value { color: #22c55e; }\n";
+    file << "    .stat-card.failed .stat-value { color: #ef4444; }\n";
+    file << "    .stat-card.time .stat-value { color: #a78bfa; }\n";
+    file << "    .tests { \n";
+    file << "      background: #18181b;\n";
+    file << "      border: 1px solid #27272a;\n";
+    file << "      border-radius: 8px;\n";
+    file << "      overflow: hidden;\n";
+    file << "    }\n";
+    file << "    .test-item { \n";
+    file << "      padding: 1rem 1.5rem;\n";
+    file << "      border-bottom: 1px solid #27272a;\n";
+    file << "      display: flex;\n";
+    file << "      justify-content: space-between;\n";
+    file << "      align-items: center;\n";
+    file << "      transition: background 0.2s;\n";
+    file << "    }\n";
+    file << "    .test-item:last-child { border-bottom: none; }\n";
+    file << "    .test-item:hover { background: #27272a; }\n";
+    file << "    .test-info { flex: 1; }\n";
+    file << "    .test-name { \n";
+    file << "      font-weight: 500;\n";
+    file << "      margin-bottom: 0.25rem;\n";
+    file << "    }\n";
+    file << "    .test-error { \n";
+    file << "      font-size: 0.875rem;\n";
+    file << "      color: #fca5a5;\n";
+    file << "      margin-top: 0.5rem;\n";
+    file << "      font-family: 'Courier New', monospace;\n";
+    file << "    }\n";
+    file << "    .test-meta { \n";
+    file << "      display: flex;\n";
+    file << "      gap: 1rem;\n";
+    file << "      align-items: center;\n";
+    file << "    }\n";
+    file << "    .test-time { \n";
+    file << "      font-size: 0.875rem;\n";
+    file << "      color: #a1a1aa;\n";
+    file << "      font-variant-numeric: tabular-nums;\n";
+    file << "    }\n";
+    file << "    .status { \n";
+    file << "      padding: 0.25rem 0.75rem;\n";
+    file << "      border-radius: 4px;\n";
+    file << "      font-size: 0.75rem;\n";
+    file << "      font-weight: 600;\n";
+    file << "      text-transform: uppercase;\n";
+    file << "      letter-spacing: 0.05em;\n";
+    file << "    }\n";
+    file << "    .status.pass { background: #14532d; color: #86efac; }\n";
+    file << "    .status.fail { background: #450a0a; color: #fca5a5; }\n";
+    file << "    .status.skip { background: #422006; color: #fcd34d; }\n";
     file << "  </style>\n";
     file << "</head>\n";
     file << "<body>\n";
     file << "  <div class=\"container\">\n";
-    file << "    <h1>🧪 Test Report: " << suite_name << "</h1>\n";
-    file << "    <div class=\"summary\">\n";
-    file << "      <div class=\"stat total\"><h3>" << results.total << "</h3><p>Total Tests</p></div>\n";
-    file << "      <div class=\"stat passed\"><h3>" << results.passed << "</h3><p>Passed</p></div>\n";
-    file << "      <div class=\"stat failed\"><h3>" << results.failed << "</h3><p>Failed</p></div>\n";
-    file << "      <div class=\"stat skipped\"><h3>" << results.skipped << "</h3><p>Skipped</p></div>\n";
+    file << "    <header>\n";
+    file << "      <h1>" << suite_name << "</h1>\n";
+    file << "      <p class=\"subtitle\">Test Report</p>\n";
+    file << "    </header>\n";
+    
+    file << "    <div class=\"stats\">\n";
+    file << "      <div class=\"stat-card total\">\n";
+    file << "        <div class=\"stat-value\">" << results.total << "</div>\n";
+    file << "        <div class=\"stat-label\">Total Tests</div>\n";
+    file << "      </div>\n";
+    file << "      <div class=\"stat-card passed\">\n";
+    file << "        <div class=\"stat-value\">" << results.passed << "</div>\n";
+    file << "        <div class=\"stat-label\">Passed</div>\n";
+    file << "      </div>\n";
+    file << "      <div class=\"stat-card failed\">\n";
+    file << "        <div class=\"stat-value\">" << results.failed << "</div>\n";
+    file << "        <div class=\"stat-label\">Failed</div>\n";
+    file << "      </div>\n";
+    file << "      <div class=\"stat-card time\">\n";
+    file << "        <div class=\"stat-value\">" << results.total_time_ms << "</div>\n";
+    file << "        <div class=\"stat-label\">Time (ms)</div>\n";
+    file << "      </div>\n";
     file << "    </div>\n";
-    file << "    <p><strong>Total Time:</strong> " << results.total_time_ms << "ms</p>\n";
-    file << "    <table>\n";
-    file << "      <thead>\n";
-    file << "        <tr><th>Test Name</th><th>Status</th><th>Time (ms)</th><th>Details</th></tr>\n";
-    file << "      </thead>\n";
-    file << "      <tbody>\n";
+    
+    file << "    <div class=\"tests\">\n";
     
     for (const auto& test : results.test_cases) {
         std::string status_class;
@@ -107,40 +192,43 @@ bool Reporter::generateHTML(const TestResults& results,
         switch (test.getStatus()) {
             case TestStatus::PASSED:
                 status_class = "pass";
-                status_text = "✓ PASSED";
+                status_text = "PASS";
                 break;
             case TestStatus::FAILED:
                 status_class = "fail";
-                status_text = "✗ FAILED";
+                status_text = "FAIL";
                 break;
             case TestStatus::SKIPPED:
                 status_class = "skip";
-                status_text = "⊘ SKIPPED";
+                status_text = "SKIP";
                 break;
         }
         
-        file << "        <tr>\n";
-        file << "          <td>" << test.getName() << "</td>\n";
-        file << "          <td class=\"status " << status_class << "\">" << status_text << "</td>\n";
-        file << "          <td>" << test.getExecutionTime() << "</td>\n";
-        file << "          <td>";
+        file << "      <div class=\"test-item\">\n";
+        file << "        <div class=\"test-info\">\n";
+        file << "          <div class=\"test-name\">" << test.getName() << "</div>\n";
         
         if (!test.getErrorMessage().empty()) {
-            file << "<div class=\"error\">" << test.getErrorMessage() << "</div>";
+            file << "          <div class=\"test-error\">" << test.getErrorMessage() << "</div>\n";
         }
         
-        file << "</td>\n";
-        file << "        </tr>\n";
+        file << "        </div>\n";
+        file << "        <div class=\"test-meta\">\n";
+        file << "          <span class=\"test-time\">" << test.getExecutionTime() << "ms</span>\n";
+        file << "          <span class=\"status " << status_class << "\">" << status_text << "</span>\n";
+        file << "        </div>\n";
+        file << "      </div>\n";
     }
     
-    file << "      </tbody>\n";
-    file << "    </table>\n";
+    file << "    </div>\n";
     file << "  </div>\n";
     file << "</body>\n";
     file << "</html>\n";
     
     file.close();
+    
     std::cout << "\n📄 HTML report generated: " << output_path << std::endl;
+    
     return true;
 }
 

@@ -8,11 +8,13 @@ A lightweight, modern C++ testing framework for validating APIs and CLI tools.
 
 ## Features
 
-- 🚀 JSON-based test definitions
-- 🌐 HTTP API testing
-- 📊 Colorful CLI output
-- 📝 HTML report generation
-- ⚡ Fast and lightweight
+- JSON-based test definitions
+- HTTP/HTTPS API testing with SSL support
+- Colorful CLI output with execution times
+- Modern HTML report generation
+- Automatic redirect following
+- GitHub Actions CI/CD integration
+- Fast and lightweight
 
 ## Building
 
@@ -52,14 +54,16 @@ make
 
 ## Project Status
 
-✅ Phase 1 Complete: Core HTTP testing, JSON parsing, CLI & HTML reporting
+Phase 1 Complete: Core HTTP testing, JSON parsing, CLI & HTML reporting
 
 ## Roadmap
 
 - [x] JSON-based test definitions
-- [x] HTTP API testing (GET, POST)
+- [x] HTTP/HTTPS API testing (GET, POST)
+- [x] SSL/TLS support with OpenSSL
+- [x] Automatic redirect handling
 - [x] Colorful CLI output with execution times
-- [x] HTML report generation
+- [x] Modern HTML report generation
 - [x] GitHub Actions CI/CD
 - [ ] CLI command testing
 - [ ] Performance/load testing mode
@@ -75,9 +79,9 @@ TestScope/
 │   ├── TestCase      - Individual test representation
 │   └── JsonParser    - Parses test definitions
 ├── Executors
-│   ├── HttpClient    - HTTP request handler
+│   ├── HttpClient    - HTTP/HTTPS request handler with SSL
 │   └── Assertions    - Validation logic
 └── Reporters
     ├── CLI Reporter  - Colored terminal output
-    └── HTML Reporter - Static report generation
+    └── HTML Reporter - Minimal modern design
 ```
